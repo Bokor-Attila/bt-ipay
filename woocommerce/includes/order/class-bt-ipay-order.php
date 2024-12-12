@@ -51,19 +51,6 @@ class Bt_Ipay_Order {
 	}
 
 
-	public function needs_processing() {
-		$items = $this->order->get_items();
-		foreach ($items as $product) {
-			if ( ! is_a( $product, 'WC_Product' ) ) continue;
-			if ( !$product->is_virtual() ) {
-				return true;  
-			}
-		}
-
-		return false;
-	}
-
-
 	public function get_status(): string {
 		return $this->order->get_status( 'edit' );
 	}

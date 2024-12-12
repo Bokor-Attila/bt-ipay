@@ -20,12 +20,10 @@ use Automattic\WooCommerce\Admin\Overrides\Order;
  */
 class Bt_Ipay_Return {
 
-
-	private $logger;
-
+	private Bt_Ipay_Logger $logger;
 	private Bt_Ipay_Payment_Storage $storage_service;
-
 	private Bt_Ipay_Post_Request $request;
+	private ?Bt_Ipay_Order $order_service = null;
 
 	public function __construct( Bt_Ipay_Post_Request $request ) {
 		$this->logger          = new Bt_Ipay_Logger();
@@ -37,7 +35,7 @@ class Bt_Ipay_Return {
 		try {
 			$this->validate();
 
-			$order_service = $this->get_order_service( $this->request->query( 'orderId' ) );
+			$this->order_service = $this->get_order_service( $this->request->query( 'orderId' ) );
 			$client        = new Bt_Ipay_Sdk_Client( new Bt_Ipay_Config() );
 			( new Bt_Ipay_Finish_Processor(
 				$client->payment_details(
@@ -45,29 +43,25 @@ class Bt_Ipay_Return {
 						$this->request->query( 'orderId' )
 					)
 				),
-				$order_service,
+				$this->order_service,
 				$this->request->query( 'orderId' )
 			) )->process();
 
-			$this->redirect_to_success( $order_service->get_order() );
-		} catch ( Bt_Ipay_Storage_Exception $th ) {
-			$this->logger->error( (string) $th );
-			wc_add_notice( __( 'Cannot not process payment data.', 'bt-ipay-payments' ), 'error' );
-			$this->redirect_to_failure();
-		} catch ( \Throwable $th ) {
-			wc_add_notice( $th->getMessage(), 'error' );
-			$this->logger->error( (string) $th );
-			$this->redirect_to_failure();
+			$this->redirect_to_success( $this->order_service->get_order() );
+        } catch ( Bt_Ipay_Storage_Exception $e ) {
+            $this->handle_failure( $e, __('Cannot process payment data.', 'bt-ipay-payments'));
+        } catch ( \Throwable $th ) {
+            $this->handle_failure( $th, $th->getMessage());
 		}
 	}
 
 	private function validate() {
 		if ( ! is_string( $this->request->query( 'orderId' ) ) ) {
-			throw new \Exception( 'Invalid return `orderId`', 1 );
+			throw new \InvalidArgumentException( 'Invalid return `orderId`', 1 );
 		}
 
 		if ( ! is_string( $this->request->query( 'token' ) ) ) {
-			throw new \Exception( 'Invalid return `token`', 1 );
+			throw new \InvalidArgumentException( 'Invalid return `token`', 1 );
 		}
 	}
 
@@ -89,16 +83,22 @@ class Bt_Ipay_Return {
 	}
 
 	/**
-	 * Redirect user back to checkout page
-	 *
-	 * @return void
-	 */
-	private function redirect_to_failure() {
-		wp_safe_redirect( wc_get_checkout_url() );
-	}
+     * Redirect user back to checkout page
+     *
+     * @return void
+     */
+    private function redirect_to_failure($failedRedirectUrl = null)
+    {
+        if ($failedRedirectUrl) {
+            wp_safe_redirect($failedRedirectUrl);
+        } else {
+            wp_safe_redirect(wc_get_checkout_url());
+        }
+        exit;
+    }
 
 
-	/**
+    /**
 	 * Get our payment gateway
 	 *
 	 * @return Bt_Ipay_Gateway|null
@@ -124,4 +124,26 @@ class Bt_Ipay_Return {
 		$order = new WC_Order( $storage['order_id'] );
 		return new Bt_Ipay_Order( $order );
 	}
+
+    /**
+     * Handles order retrieval and redirects to the failure page if needed.
+     *
+     * @param \Throwable $exception
+     * @param string $userMessage
+     * @return void
+     */
+    private function handle_failure(\Throwable $exception, string $userMessage) {
+        try {
+            $order = $this->order_service ? $this->order_service->get_order() : $this->get_order_service($this->request->query('orderId'))->get_order();
+            $failedRedirectUrl = $order->get_checkout_payment_url(false);
+        } catch (\Exception $e) {
+            // Fallback if order retrieval fails
+            $this->logger->error('Order retrieval failed: ' . (string) $e);
+            $failedRedirectUrl = wc_get_checkout_url();
+        }
+
+        $this->logger->error((string) $exception);
+        wc_add_notice($userMessage, 'error');
+        $this->redirect_to_failure($failedRedirectUrl);
+    }
 }

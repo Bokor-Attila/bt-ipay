@@ -53,12 +53,12 @@ class Bt_Ipay_Finish_Processor {
 	public function process() {
 
 		if ( $this->store_data() === false ) {
-			throw new \Exception( esc_html__( 'Could not save finish response', 'bt-ipay-payments' ) );
+			throw new Bt_Ipay_Storage_Exception( esc_html__( 'Could not save finish response', 'bt-ipay-payments' ) );
 		}
 		if ( $this->response->payment_is_accepted() ) {
 			$this->save_card_data();
 			$this->order_service->update_status(
-				$this->response->is_authorized() ? 'on-hold' : ($this->order_service->needs_processing() ? 'processing': 'completed'),
+				$this->response->is_authorized() ? 'on-hold' : 'processing',
 				/* translators: %s: payment id */
 				sprintf( esc_html__( 'Created payment transaction %s', 'bt-ipay-payments' ), $this->payment_engine_id )
 			);
