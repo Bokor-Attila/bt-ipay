@@ -34,12 +34,12 @@ class Bt_Ipay_Card_List_Page {
 	 */
 	public function card_save_return() {
 		if ( ! is_string( $this->request->query( 'orderId' ) ) ) {
-			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay' ), 'error' );
+			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay-payments' ), 'error' );
 		}
 		try {
 			( new Bt_Ipay_Card_Add( $this->card_storage ) )->process_return( (string) $this->request->query( 'orderId' ) );
 		} catch ( \Throwable $th ) {
-			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay' ), 'error' );
+			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay-payments' ), 'error' );
 			( new Bt_Ipay_Logger() )->error( (string) $th );
 		}
 		wp_safe_redirect( wc_get_account_endpoint_url( 'bt-ipay-cards' ) );
@@ -57,7 +57,7 @@ class Bt_Ipay_Card_List_Page {
 				array( 'redirect' => ( new Bt_Ipay_Card_Add( $this->card_storage ) )->start() )
 			);
 		} catch ( \Throwable $th ) {
-			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay' ), 'error' );
+			wc_add_notice( esc_html__( 'Could not perform action', 'bt-ipay-payments' ), 'error' );
 			( new Bt_Ipay_Logger() )->error( (string) $th );
 			wp_send_json(
 				array( 'redirect' => wc_get_account_endpoint_url( 'bt-ipay-cards' ) )
@@ -80,7 +80,7 @@ class Bt_Ipay_Card_List_Page {
 
 		$card_id = $this->request->get( 'card_id' );
 		if ( ! is_scalar( $card_id ) ) {
-			$this->failed( esc_html__( 'Could not find card id', 'bt-ipay' ) );
+			$this->failed( esc_html__( 'Could not find card id', 'bt-ipay-payments' ) );
 		}
 
 		$card = $this->get_card();
@@ -88,12 +88,12 @@ class Bt_Ipay_Card_List_Page {
 			! is_array( $card ) ||
 			! $this->can_change_card( $card )
 			) {
-			$this->failed( esc_html__( 'Could not perform action', 'bt-ipay' ) );
+			$this->failed( esc_html__( 'Could not perform action', 'bt-ipay-payments' ) );
 		}
 
 
 		if ( $card === null || ! isset( $card['ipay_id'] ) ) {
-			$this->failed( __( 'Cannot find card', 'bt-ipay' ) );
+			$this->failed( __( 'Cannot find card', 'bt-ipay-payments' ) );
 		}
 
 		try {
@@ -101,7 +101,7 @@ class Bt_Ipay_Card_List_Page {
 		} catch (\Throwable $th) { // phpcs:ignore
 		}
 		$this->card_storage->delete_by_id( (int) $card_id );
-		wc_add_notice( esc_html__( 'Card deleted successfully', 'bt-ipay' ) );
+		wc_add_notice( esc_html__( 'Card deleted successfully', 'bt-ipay-payments' ) );
 	}
 
 
@@ -142,18 +142,18 @@ class Bt_Ipay_Card_List_Page {
 		$card = $this->get_card();
 
 		if ( $card === null || ! isset( $card['ipay_id'] ) ) {
-			$this->failed( __( 'Cannot find card', 'bt-ipay' ) );
+			$this->failed( __( 'Cannot find card', 'bt-ipay-payments' ) );
 		}
 
 		if ( ! $this->can_change_card( $card ) ) {
-			$this->failed( __( 'Cannot update card', 'bt-ipay' ) );
+			$this->failed( __( 'Cannot update card', 'bt-ipay-payments' ) );
 		}
 		try {
 			$ipay_card_id = $card['ipay_id'];
 			$enable       = $this->request->get( 'enable' ) === 'true';
 			$this->toggle_status($ipay_card_id, $enable);
 		} catch ( \Throwable $th ) {
-			$this->failed( __( 'Could not process action', 'bt-ipay' ) );
+			$this->failed( __( 'Could not process action', 'bt-ipay-payments' ) );
 			( new Bt_Ipay_Logger() )->error( (string) $th );
 		}
 	}

@@ -68,7 +68,7 @@ class Bt_Ipay_Sdk_Pay_Response {
 
 	private function format_error_message( ?string $message ): string {
 		if ( $message === null ) {
-			return esc_html__( 'Unknown error occurred', 'bt-ipay' );
+			return esc_html__( 'Unknown error occurred', 'bt-ipay-payments' );
 		}
 
 		if ( strpos( $message, 'orderBundle' ) !== false ) {
@@ -78,12 +78,12 @@ class Bt_Ipay_Sdk_Pay_Response {
 				$value = explode( ']', $fields[0] )[0];
 				if ( strpos( $message, 'deliveryInfo' ) !== false ) {
 					/* translators: %s: form field */
-					return sprintf( esc_html__( 'Invalid shipping address field: %s' ), esc_attr( $value ) );
+					return sprintf( esc_html__( 'Invalid shipping address field: %s', 'bt-ipay-payments' ), esc_attr( $value ) );
 				}
 
 				if ( strpos( $message, 'billingInfo' ) !== false ) {
 					/* translators: %s: form field */
-					return sprintf( esc_html__( 'Invalid billing address field: %s' ), esc_attr( $value ) );
+					return sprintf( esc_html__( 'Invalid billing address field: %s', 'bt-ipay-payments' ), esc_attr( $value ) );
 				}
 			}
 		}

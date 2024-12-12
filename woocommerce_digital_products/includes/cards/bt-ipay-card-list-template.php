@@ -1,14 +1,15 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div id="bt-ipay-cof-page">
 <div class="bt-ipay-add-card-wrap">
 	<button type="button" class="button bt-ipay-add-card">
-		<?php echo esc_html_e( 'Add new card', 'bt-ipay' ); ?>
+		<?php echo esc_html_e( 'Add new card', 'bt-ipay-payments' ); ?>
 	</button>
 	<small>
 		<?php
 		echo esc_html_e(
 			'A simple card verification is required for adding a new card, no amount will be deducted',
-			'bt-ipay'
+			'bt-ipay-payments'
 		);
 		?>
 	</small>
@@ -18,23 +19,23 @@
 if ( ! is_array( $cards ) || count( $cards ) === 0 ) {
 	?>
 	<div class="woocommerce-info">
-		<?php echo esc_html_e( 'No saved cards available yet', 'bt-ipay' ); ?>
+		<?php echo esc_html_e( 'No saved cards available yet', 'bt-ipay-payments' ); ?>
 	</div>
 <?php } else { ?>
 	<table class="woocommerce-orders-table shop_table shop_table_responsive account-orders-table">
 		<thead>
 			<tr>
 				<th scope="col">
-					<?php esc_html_e( 'Card Holder', 'bt-ipay' ); ?>
+					<?php esc_html_e( 'Card Holder', 'bt-ipay-payments' ); ?>
 				</th>
 				<th scope="col">
-					<?php esc_html_e( 'Card Number', 'bt-ipay' ); ?>
+					<?php esc_html_e( 'Card Number', 'bt-ipay-payments' ); ?>
 				</th>
 				<th scope="col">
-					<?php esc_html_e( 'Expiration', 'bt-ipay' ); ?>
+					<?php esc_html_e( 'Expiration', 'bt-ipay-payments' ); ?>
 				</th>
 				<th scope="col" class="bt-ipay-card-actions">
-					<?php esc_html_e( 'Actions', 'bt-ipay' ); ?>
+					<?php esc_html_e( 'Actions', 'bt-ipay-payments' ); ?>
 				</th>
 			</tr>
 		</thead>
@@ -64,15 +65,15 @@ if ( ! is_array( $cards ) || count( $cards ) === 0 ) {
 						<div class="bt-ipay-actions-wrap">
 							<?php if ( $is_active ) { ?>
 								<a href="#" class="toggle-ipay-card disable-ipay-card" data-id="<?php echo esc_attr( $card['id'] ); ?>">
-									<?php esc_html_e( 'Disable', 'bt-ipay' ); ?>
+									<?php esc_html_e( 'Disable', 'bt-ipay-payments' ); ?>
 								</a>
 							<?php } else { ?>
 								<a href="#" class="toggle-ipay-card enable-ipay-card" data-id="<?php echo esc_attr( $card['id'] ); ?>">
-									<?php esc_html_e( 'Enable', 'bt-ipay' ); ?>
+									<?php esc_html_e( 'Enable', 'bt-ipay-payments' ); ?>
 								</a>
 							<?php } ?>
 							<a href="#" class="delete-ipay-card" data-id="<?php echo esc_attr( $card['id'] ); ?>">
-								<?php esc_html_e( 'Delete', 'bt-ipay' ); ?>
+								<?php esc_html_e( 'Delete', 'bt-ipay-payments' ); ?>
 							</a>
 						</div>
 					</td>

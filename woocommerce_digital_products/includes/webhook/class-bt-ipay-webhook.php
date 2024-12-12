@@ -43,14 +43,14 @@ class Bt_Ipay_Webhook {
 			$jwt = $this->decode();
 			( new Bt_Ipay_Webhook_Processor( $jwt ) )->process();
 		} catch ( \Throwable $th ) {
-			$this->logger->error( 'Callback error: ' . $th->getMessage() . ' token:' . file_get_contents( 'php://input' ) );
+			$this->logger->error( 'Callback error: ' . $th->getMessage() . ' token:' . wp_kses_post(file_get_contents( 'php://input' )) );
 			wp_die( '', '', 400 );
 		}
 	}
 
 	private function decode(): \stdClass {
 		return Bt_Ipay_Jwt::decode(
-			file_get_contents( 'php://input' ),
+			(string) file_get_contents( 'php://input' ),
 			Bt_Ipay_Jwt::urlsafe_b64_decode(
 				( new Bt_Ipay_Config() )->get_callback_key()
 			)

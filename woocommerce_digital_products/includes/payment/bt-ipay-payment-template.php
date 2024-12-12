@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 $cards = $this->get_user_saved_card();
 /** @var Bt_Ipay_Gateway $this  */
 
@@ -11,10 +13,10 @@ if ( $this->can_show_cards_on_file() ) {
 		?>
 		<label for="bt_ipay_use_new_card" class="bt-ipay-use-new-card">
 			<input type="checkbox" name="bt_ipay_use_new_card" id="bt_ipay_use_new_card" value="yes">
-			<?php echo esc_html__( 'I want to pay with a new card', 'bt-ipay' ); ?>
+			<?php echo esc_html__( 'I want to pay with a new card', 'bt-ipay-payments' ); ?>
 		</label>
 		<label for="bt-card_id" class="bt-ipay-card-list">
-			<?php echo esc_html__( 'Select saved card', 'bt-ipay' ); ?>
+			<?php echo esc_html__( 'Select saved card', 'bt-ipay-payments' ); ?>
 			<select name="bt_ipay_card_id" id="bt-card_id" class="bt-ipay-card-select">
 				<?php
 				foreach ( $cards as $card ) {
@@ -36,7 +38,7 @@ if ( $this->can_show_cards_on_file() ) {
 	?>
 	>
 		<input type="checkbox" name="bt_ipay_save_cards" id="bt_ipay_save_cards" value="save">
-		<?php echo esc_html__( 'Save my card for future uses', 'bt-ipay' ); ?>
+		<?php echo esc_html__( 'Save my card for future uses', 'bt-ipay-payments' ); ?>
 	</label>
 	<?php
 }

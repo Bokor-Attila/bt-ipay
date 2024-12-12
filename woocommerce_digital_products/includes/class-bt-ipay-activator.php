@@ -33,7 +33,7 @@ class Bt_Ipay_Activator {
 			set_transient(
 				Bt_Ipay_Admin::get_admin_notice_key(),
 				array(
-					'message' => __( "BT iPay: Invalid php version, at least php 8.1 is required", 'bt-ipay' ),
+					'message' => __( "BT iPay: Invalid php version, at least php 8.1 is required", 'bt-ipay-payments' ),
 					'type'    => 'error',
 					'clear'   => false
 				)

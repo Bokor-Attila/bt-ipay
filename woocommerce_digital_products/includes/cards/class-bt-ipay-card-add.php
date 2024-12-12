@@ -29,7 +29,7 @@ class Bt_Ipay_Card_Add {
 	public function start() {
 		$user = get_current_user_id();
 		if ( $user === 0 ) {
-			return $this->return( esc_html__( 'Could not save card', 'bt-ipay' ) );
+			return $this->return( esc_html__( 'Could not save card', 'bt-ipay-payments' ) );
 		}
 
 		$payload = array(
@@ -38,7 +38,7 @@ class Bt_Ipay_Card_Add {
 			'currency'    => 'RON',
 			'returnUrl'   => add_query_arg( 'wc-api', 'bt_card_return', home_url( '/' ) ),
 			'clientId'    => $user,
-			'description' => esc_html__( 'Save card for later use', 'bt-ipay' ),
+			'description' => esc_html__( 'Save card for later use', 'bt-ipay-payments' ),
 		);
 
 		return $this->process(
@@ -55,7 +55,7 @@ class Bt_Ipay_Card_Add {
 
 		$user = get_current_user_id();
 		if ( $user === 0 ) {
-			return $this->flash( esc_html__( 'Could not save card', 'bt-ipay' ), true );
+			return $this->flash( esc_html__( 'Could not save card', 'bt-ipay-payments' ), true );
 		}
 
 		$client = new Bt_Ipay_Sdk_Client(
@@ -69,7 +69,7 @@ class Bt_Ipay_Card_Add {
 				return $this->flash( 
 					sprintf(
 						/* translators: %s: captured amount */
-						esc_html__( 'Could not save card, invalid data provided - %s', 'bt-ipay' ),
+						esc_html__( 'Could not save card, invalid data provided - %s', 'bt-ipay-payments' ),
 						esc_html( $response->get_error() )
 					)
 					, true );
@@ -77,12 +77,12 @@ class Bt_Ipay_Card_Add {
 			$card_data = $this->get_card_data( $response );
 			if ( $card_data !== null ) {
 				$this->storage->create( $card_data );
-				return $this->flash( esc_html__( 'Card saved successfully', 'bt-ipay' ) );
+				return $this->flash( esc_html__( 'Card saved successfully', 'bt-ipay-payments' ) );
 			}
-			return $this->flash( esc_html__( 'This card is already registered', 'bt-ipay' ), true );
+			return $this->flash( esc_html__( 'This card is already registered', 'bt-ipay-payments' ), true );
 		}
 		( new Bt_Ipay_Logger() )->error( esc_html( $response->get_error_message() ?? '' ) );
-		return $this->flash( esc_html__( 'Could not save card', 'bt-ipay' ), true );
+		return $this->flash( esc_html__( 'Could not save card', 'bt-ipay-payments' ), true );
 	}
 
 	/**
@@ -116,14 +116,14 @@ class Bt_Ipay_Card_Add {
 	protected function process( RegisterResponseModel $response ): string {
 		if ( ! $response->isSuccess() ) {
 			( new Bt_Ipay_Logger() )->error( $response->getErrorMessage() ?? '' );
-			return $this->return( esc_html__( 'Could not save card', 'bt-ipay' ) );
+			return $this->return( esc_html__( 'Could not save card', 'bt-ipay-payments' ) );
 		}
 
 		if ( $response->getRedirectUrl() !== null ) {
 			return $response->getRedirectUrl();
 		}
 		( new Bt_Ipay_Logger() )->error( esc_html( $response->getErrorMessage() ?? '' ) );
-		return $this->return( esc_html__( 'Could not save card', 'bt-ipay' ) );
+		return $this->return( esc_html__( 'Could not save card', 'bt-ipay-payments' ) );
 	}
 
 	private function return( string $message ): string {

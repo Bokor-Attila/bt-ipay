@@ -38,7 +38,7 @@ class Bt_Ipay_Card_State_Processor {
 	public function process( BindCardResponseModel $response, bool $show_notice = true ) {
 		if ( ! $response->isSuccess() ) {
 			wc_add_notice(
-				__( 'Could not change card status', 'bt-ipay' ),
+				__( 'Could not change card status', 'bt-ipay-payments' ),
 				'error'
 			);
 			( new Bt_Ipay_Logger() )->error( $response->getErrorMessage() );
@@ -52,7 +52,7 @@ class Bt_Ipay_Card_State_Processor {
 
 		if ( $show_notice ) {
 			wc_add_notice(
-				__( 'Status changed successfully', 'bt-ipay' )
+				__( 'Status changed successfully', 'bt-ipay-payments' )
 			);
         }
 	}

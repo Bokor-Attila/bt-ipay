@@ -72,7 +72,7 @@ class Bt_Ipay_Refund_Result {
 
 	public function get_error_message(): string {
 		if ( $this->has_internal_error() ) {
-			return esc_html__( 'Could not process request, check woocommerce logs for errors', 'bt-ipay' );
+			return esc_html__( 'Could not process request, check woocommerce logs for errors', 'bt-ipay-payments' );
 		}
 		return $this->error_message ?? '';
 	}

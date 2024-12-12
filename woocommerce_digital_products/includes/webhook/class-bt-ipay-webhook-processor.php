@@ -101,7 +101,7 @@ class Bt_Ipay_Webhook_Processor {
 
 		$order_service->update_message(
 			/* translators: %s: payment status */
-			sprintf( esc_html__( 'Received loy status: `%s` via callback' ), esc_attr( $payment_status ) )
+			sprintf( esc_html__( 'Received loy status: `%s` via callback', 'bt-ipay-payments' ), esc_attr( $payment_status ) )
 		);
 		$this->payment_storage->update_loy_status( $payment_data['ipay_id'], $payment_status );
 	}
@@ -120,7 +120,7 @@ class Bt_Ipay_Webhook_Processor {
 
 		$new_order_status = $this->get_new_order_status( $payment_status );
 		/* translators: %s: payment status */
-		$message = sprintf( esc_html__( 'Received payment status: `%s` via callback' ), esc_attr( $payment_status ) );
+		$message = sprintf( esc_html__( 'Received payment status: `%s` via callback', 'bt-ipay-payments' ), esc_attr( $payment_status ) );
 		if (
 			$new_order_status !== null &&
 			$this->can_update_order_status( $order_service->get_status(), $new_order_status )
@@ -230,7 +230,7 @@ class Bt_Ipay_Webhook_Processor {
 
 			$order_service->update_message(
 				/* translators: %s: payment amount */
-				sprintf( esc_html__( 'Successfully refunded amount %s', 'bt-ipay' ), wc_price( $refund_amount ) )
+				sprintf( esc_html__( 'Successfully refunded amount %s', 'bt-ipay-payments' ), wc_price( $refund_amount ) )
 			);
 		}
 

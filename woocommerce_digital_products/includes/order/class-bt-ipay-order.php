@@ -107,7 +107,7 @@ class Bt_Ipay_Order {
 		$total = $this->order->get_total( 'edit' );
 		if ( ! is_scalar( $total ) ) {
 			/* translators: %s: order total */
-			throw new Bt_Ipay_Order_Exception( sprintf( esc_html__( 'Invalid order amount: %s' ), esc_attr( $total ) ) );
+			throw new Bt_Ipay_Order_Exception( sprintf( esc_html__( 'Invalid order amount: %s', 'bt-ipay-payments' ), esc_attr( $total ) ) );
 		}
 		return intval( floatval( $total ) * 100 );
 	}
@@ -143,7 +143,7 @@ class Bt_Ipay_Order {
 		$fee->set_amount( -$amount );
 		$fee->set_total( -$amount );
 		/* translators: %s fee amount */
-		$fee->set_name( sprintf( __( '%s (not captured)', 'bt-ipay' ), wc_clean( $formatted_amount ) ) );
+		$fee->set_name( sprintf( __( '%s (not captured)', 'bt-ipay-payments' ), wc_clean( $formatted_amount ) ) );
 
 		$this->order->add_item( $fee );
 		$this->order->calculate_totals();

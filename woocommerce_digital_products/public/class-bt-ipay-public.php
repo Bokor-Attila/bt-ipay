@@ -108,7 +108,7 @@ class Bt_Ipay_Public {
 				array(
 					'nonce'               => wp_create_nonce( 'bt_ipay_nonce' ),
 					'ajaxurl'             => admin_url( 'admin-ajax.php' ),
-					'confirm_card_delete' => esc_html__( 'Are you sure you want to delete this card?', 'bt-ipay' ),
+					'confirm_card_delete' => esc_html__( 'Are you sure you want to delete this card?', 'bt-ipay-payments' ),
 				)
 			);
 		}

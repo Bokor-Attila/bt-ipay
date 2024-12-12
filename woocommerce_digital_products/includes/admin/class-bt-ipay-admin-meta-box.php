@@ -33,7 +33,7 @@ class Bt_Ipay_Admin_Meta_Box {
 		if ( $post === 'shop_order' ) {
 			add_meta_box(
 				'bt-ipay',
-				esc_html__( 'BT Ipay', 'bt-iPay' ),
+				esc_html__( 'BT Ipay', 'bt-ipay-payments' ),
 				array( $this, 'render_order_meta_box' ),
 				'shop_order',
 				'normal',
@@ -58,7 +58,7 @@ class Bt_Ipay_Admin_Meta_Box {
 		$payment_data = $this->get_payment_data( (int) $this->request->get( 'order_id' ) );
 
 		if ( $payment_data === null || ! array_key_exists( 'ipay_id', $payment_data ) ) {
-			$this->error( esc_html__( 'No payment found for this order', 'bt-ipay' ) );
+			$this->error( esc_html__( 'No payment found for this order', 'bt-ipay-payments' ) );
 		}
 
 		try {
@@ -78,7 +78,7 @@ class Bt_Ipay_Admin_Meta_Box {
 				$this->add_order_message(
 					sprintf(
 					/* translators: %s: captured amount */
-						esc_html__( 'Partially captured amount %s', 'bt-ipay' ),
+						esc_html__( 'Partially captured amount %s', 'bt-ipay-payments' ),
 						wc_price( $result->get_total() )
 					)
 				);
@@ -91,7 +91,7 @@ class Bt_Ipay_Admin_Meta_Box {
 
 			$message = sprintf(
 				/* translators: %s: captured amount */
-				esc_html__( 'Successfully captured amount %s', 'bt-ipay' ),
+				esc_html__( 'Successfully captured amount %s', 'bt-ipay-payments' ),
 				wc_price( $this->request->get( 'amount' ) )
 			);
 			$this->update_order_status( $message, $result->has_payment() || $result->has_loy() );
@@ -102,7 +102,7 @@ class Bt_Ipay_Admin_Meta_Box {
 			$this->error(
 				sprintf(
 					/* translators: %s: error message */
-					esc_html__( 'Could not capture payment: %s', 'bt-ipay' ),
+					esc_html__( 'Could not capture payment: %s', 'bt-ipay-payments' ),
 					esc_html( $th->getMessage() )
 				)
 			);
@@ -139,7 +139,7 @@ class Bt_Ipay_Admin_Meta_Box {
 		$payment_data = $this->get_payment_data( (int) $this->request->get( 'order_id' ) );
 
 		if ( $payment_data === null || ! array_key_exists( 'ipay_id', $payment_data ) ) {
-			$this->error( esc_html__( 'No payment found for this order', 'bt-ipay' ) );
+			$this->error( esc_html__( 'No payment found for this order', 'bt-ipay-payments' ) );
 		}
 
 		try {
@@ -158,7 +158,7 @@ class Bt_Ipay_Admin_Meta_Box {
 				$this->add_order_message(
 					sprintf(
 						/* translators: %s: error message */
-						esc_html__( 'Successfully cancel authorization %s', 'bt-ipay' ),
+						esc_html__( 'Successfully cancel authorization %s', 'bt-ipay-payments' ),
 						esc_html( $payment_data['loy_id'] )
 					)
 				);
@@ -169,7 +169,7 @@ class Bt_Ipay_Admin_Meta_Box {
 				$this->error( $result->get_error_message() );
 			}
 
-			$message = esc_html__( 'Successfully cancel authorization/s', 'bt-ipay' );
+			$message = esc_html__( 'Successfully cancel authorization/s', 'bt-ipay-payments' );
 
 			$this->update_order_status( $message, $result->has_payment(), 'cancelled' );
 			$this->notice( $message );
@@ -177,7 +177,7 @@ class Bt_Ipay_Admin_Meta_Box {
 			$this->error(
 				sprintf(
 					/* translators: %s: error message */
-					esc_html__( 'Could not capture payment: %s', 'bt-ipay' ),
+					esc_html__( 'Could not capture payment: %s', 'bt-ipay-payments' ),
 					esc_html( $th->getMessage() )
 				)
 			);
@@ -187,7 +187,7 @@ class Bt_Ipay_Admin_Meta_Box {
 	private function check_permission() {
 		$current_user = wp_get_current_user();
 		if ( ! in_array( 'administrator', $current_user->roles ) ) {
-			$this->error( esc_html__( 'Only admin user can execute this action', 'bt-ipay' ) );
+			$this->error( esc_html__( 'Only admin user can execute this action', 'bt-ipay-payments' ) );
 		}
 	}
 
@@ -196,13 +196,13 @@ class Bt_Ipay_Admin_Meta_Box {
 
 		$amount = $this->request->get( 'amount' );
 		if ( ! is_scalar( $amount ) && (float) $amount <= 0 ) {
-			$this->error( esc_html__( 'Invalid form: A valid capture amount is required', 'bt-ipay' ) );
+			$this->error( esc_html__( 'Invalid form: A valid capture amount is required', 'bt-ipay-payments' ) );
 		}
 	}
 
 	private function validate_request_order_number() {
 		if ( ! is_scalar( $this->request->get( 'order_id' ) ) ) {
-			$this->error( esc_html__( 'Invalid form: Order ID is required', 'bt-ipay' ) );
+			$this->error( esc_html__( 'Invalid form: Order ID is required', 'bt-ipay-payments' ) );
 		}
 	}
 

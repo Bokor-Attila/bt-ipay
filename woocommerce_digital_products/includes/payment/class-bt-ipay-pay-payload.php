@@ -80,7 +80,7 @@ class Bt_Ipay_Pay_Payload {
 	private function get_description(string $order_number)
     {
 		/* translators: %1$s: order number, %2$s: blog name*/
-		$default = sprintf( __( 'Order: %1$s - %2$s ', 'bt-iPay' ), $order_number, get_bloginfo( 'name' ) );
+		$default = sprintf( __( 'Order: %1$s - %2$s ', 'bt-ipay-payments' ), $order_number, get_bloginfo( 'name' ) );
         if (!is_string($this->description) || strlen($this->description) === 0) {
             return $default;
         }

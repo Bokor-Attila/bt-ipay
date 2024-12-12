@@ -100,8 +100,8 @@ class Bt_Ipay_Admin {
 			$this->plugin_name,
 			'bt_ipay_vars',
 			array(
-				'confirm_capture' => esc_html__( 'Are you sure you wish to process this capture? This action cannot be undone', 'bt-iPay' ),
-				'confirm_cancel'  => esc_html__( 'Are you sure you wish to process this cancel? This action cannot be undone', 'bt-iPay' ),
+				'confirm_capture' => esc_html__( 'Are you sure you wish to process this capture? This action cannot be undone', 'bt-ipay-payments' ),
+				'confirm_cancel'  => esc_html__( 'Are you sure you wish to process this cancel? This action cannot be undone', 'bt-ipay-payments' ),
 				'nonce'           => wp_create_nonce( 'bt_ipay_nonce' ),
 			)
 		);
@@ -117,7 +117,7 @@ class Bt_Ipay_Admin {
 			set_transient(
 				self::get_admin_notice_key(),
 				array(
-					'message' => __( 'BT iPay requires the WooCommerce plugin to be installed and active', 'bt-ipay' ),
+					'message' => __( 'BT iPay requires the WooCommerce plugin to be installed and active', 'bt-ipay-payments' ),
 					'type'    => 'error',
 				)
 			);

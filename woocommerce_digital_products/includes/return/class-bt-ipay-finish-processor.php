@@ -53,14 +53,14 @@ class Bt_Ipay_Finish_Processor {
 	public function process() {
 
 		if ( $this->store_data() === false ) {
-			throw new \Exception( esc_html__( 'Could not save finish response', 'bt-ipay' ) );
+			throw new Bt_Ipay_Storage_Exception( esc_html__( 'Could not save finish response', 'bt-ipay-payments' ) );
 		}
 		if ( $this->response->payment_is_accepted() ) {
 			$this->save_card_data();
 			$this->order_service->update_status(
 				$this->response->is_authorized() ? 'on-hold' : ($this->order_service->needs_processing() ? 'processing': 'completed'),
 				/* translators: %s: payment id */
-				sprintf( esc_html__( 'Created payment transaction %s', 'bt-ipay' ), $this->payment_engine_id )
+				sprintf( esc_html__( 'Created payment transaction %s', 'bt-ipay-payments' ), $this->payment_engine_id )
 			);
 		} else {
 			$this->order_service->update_status(
@@ -70,7 +70,7 @@ class Bt_Ipay_Finish_Processor {
 			throw new \Exception(
 				sprintf(
 					/* translators: %s: payment error message */
-					esc_html__( 'Could not process payment:  %s', 'bt-ipay' ),
+					esc_html__( 'Could not process payment:  %s', 'bt-ipay-payments' ),
 					esc_html( $this->get_consumer_message() )
 				)
 			);
@@ -83,7 +83,7 @@ class Bt_Ipay_Finish_Processor {
 			$this->response->get_status() === Bt_Ipay_Payment_Storage::STATUS_REVERSED &&
 			$this->response->get_loy_id() !== null
 		) {
-			return esc_html__( 'Insufficient funds.', 'bt-ipay' );
+			return esc_html__( 'Insufficient funds.', 'bt-ipay-payments' );
 		}
 
 		return $this->response->get_error();
@@ -108,10 +108,10 @@ class Bt_Ipay_Finish_Processor {
 			$error_message = 'Unknown error';
 		}
 		/* translators: %s: error message */
-		$message = sprintf( esc_html__( 'Could not create payment: %s', 'bt-ipay' ), $error_message );
+		$message = sprintf( esc_html__( 'Could not create payment: %s', 'bt-ipay-payments' ), $error_message );
 
 		$messages = array(
-			self::ORDER_CANCEL_CODE => esc_html__( 'Order has been canceled by the user', 'bt-ipay' ),
+			self::ORDER_CANCEL_CODE => esc_html__( 'Order has been canceled by the user', 'bt-ipay-payments' ),
 		);
 
 		return $messages[ $this->response->get_code() ] ?? $message;

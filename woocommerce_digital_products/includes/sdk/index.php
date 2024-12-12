@@ -1,5 +1,6 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit;
 require_once BT_IPAY_PLUGIN_PATH . 'includes/sdk/class-bt-ipay-sdk-auth.php';
 require_once BT_IPAY_PLUGIN_PATH . 'includes/sdk/class-bt-ipay-sdk-detail-response.php';
 require_once BT_IPAY_PLUGIN_PATH . 'includes/sdk/class-bt-ipay-sdk-common-payload.php';

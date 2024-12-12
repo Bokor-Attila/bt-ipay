@@ -36,7 +36,7 @@ class Bt_Ipay_Refund_Processor {
 			if ( $payment_engine_id === null ) {
 				return new WP_Error(
 					'error',
-					esc_html__( 'Cannot process refund: bt ipay id', 'bt-ipay' )
+					esc_html__( 'Cannot process refund: bt ipay id', 'bt-ipay-payments' )
 				);
 			}
 
@@ -57,7 +57,7 @@ class Bt_Ipay_Refund_Processor {
 			( new Bt_Ipay_Logger() )->error( (string) $th );
 			return new WP_Error(
 				'error',
-				esc_html__( 'Could not create refund, check the woocommerce logs', 'bt-ipay' )
+				esc_html__( 'Could not create refund, check the woocommerce logs', 'bt-ipay-payments' )
 			);
 		}
 	}
@@ -80,7 +80,7 @@ class Bt_Ipay_Refund_Processor {
 
 	private function update_order_status( Bt_Ipay_Refund_Result $result ) {
 		/* translators: %s: payment amount */
-		$message       = sprintf( esc_html__( 'Successfully refunded amount %s', 'bt-ipay' ), wc_price( $this->amount ) );
+		$message       = sprintf( esc_html__( 'Successfully refunded amount %s', 'bt-ipay-payments' ), wc_price( $this->amount ) );
 		$order_service = new Bt_Ipay_Order( new WC_Order( $this->order_id ) );
 		if ( $result->has_payment() && ! $result->is_payment_partial() ) {
 			$order_service->update_status( 'refunded', $message );
@@ -94,7 +94,7 @@ class Bt_Ipay_Refund_Processor {
 
 		if ( $payment === null ) {
 			throw new Bt_Ipay_Refund_Exception(
-				esc_html__( 'No payment was found for this order', 'bt-ipay' )
+				esc_html__( 'No payment was found for this order', 'bt-ipay-payments' )
 			);
 		}
 

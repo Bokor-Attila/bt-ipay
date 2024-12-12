@@ -25,7 +25,7 @@ class Bt_Ipay_Gateway extends WC_Payment_Gateway {
 	public function __construct() {
 
 		$this->id           = 'bt-ipay';
-		$this->method_title = __( 'BT iPay', 'bt-iPay' );
+		$this->method_title = __( 'BT iPay', 'bt-ipay-payments' );
 		$this->supports     = array( 'products', 'refunds' );
 
 		$this->init_settings();
@@ -88,7 +88,7 @@ class Bt_Ipay_Gateway extends WC_Payment_Gateway {
 			return $response->get_result();
 		} catch ( ApiException $th ) {
 			( new Bt_Ipay_Logger() )->error( (string) $th );
-			throw new \Exception( esc_html__( 'Could not perform action, contact merchant for additional info', 'bt-ipay' ) );
+			throw new \Exception( esc_html__( 'Could not perform action, contact merchant for additional info', 'bt-ipay-payments' ) );
 		} catch ( \Throwable $th ) {
 			( new Bt_Ipay_Logger() )->error( (string) $th );
 			throw $th;
@@ -157,11 +157,11 @@ class Bt_Ipay_Gateway extends WC_Payment_Gateway {
 		$reason = ''
 	) {
 		if ( ! is_scalar( $order_id ) ) {
-			return new WP_Error( 'error', __( 'Invalid order id', 'bt-ipay' ) );
+			return new WP_Error( 'error', __( 'Invalid order id', 'bt-ipay-payments' ) );
 		}
 
 		if ( ! is_scalar( $amount ) ) {
-			return new WP_Error( 'error', __( 'Invalid refund amount', 'bt-ipay' ) );
+			return new WP_Error( 'error', __( 'Invalid refund amount', 'bt-ipay-payments' ) );
 		}
 		return (
 			new Bt_Ipay_Refund_Processor(

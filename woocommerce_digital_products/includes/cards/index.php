@@ -1,5 +1,6 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit;
 require_once BT_IPAY_PLUGIN_PATH . 'includes/cards/class-bt-ipay-card-secure.php';
 require_once BT_IPAY_PLUGIN_PATH . 'includes/cards/class-bt-ipay-card-add.php';
 require_once BT_IPAY_PLUGIN_PATH . 'includes/cards/class-bt-ipay-card-list-page.php';

@@ -70,7 +70,7 @@ class Bt_Ipay {
 		if ( defined( 'BT_IPAY_VERSION' ) ) {
 			$this->version = BT_IPAY_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->plugin_name = 'bt-ipay';
 
@@ -312,9 +312,9 @@ class Bt_Ipay {
 			'icon'               => $gateway->icon,
 			'canShowCardsOnFile' => $gateway->can_show_cards_on_file(),
 			'cards'              => $gateway->can_show_cards_on_file() ? $gateway->get_user_saved_card() : array(),
-			'saveCardLabel'      => esc_html__( 'Save my card for future uses', 'bt-ipay' ),
-			'newCardLabel'       => esc_html__( 'I want to pay with a new card', 'bt-ipay' ),
-			'selectLabel'        => esc_html__( 'Select saved card', 'bt-ipay' ),
+			'saveCardLabel'      => esc_html__( 'Save my card for future uses', 'bt-ipay-payments' ),
+			'newCardLabel'       => esc_html__( 'I want to pay with a new card', 'bt-ipay-payments' ),
+			'selectLabel'        => esc_html__( 'Select saved card', 'bt-ipay-payments' ),
 			'notices'            => $notices,
 		);
 	}

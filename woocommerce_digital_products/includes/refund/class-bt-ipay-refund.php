@@ -82,7 +82,7 @@ class Bt_Ipay_Refund {
 			throw new Bt_Ipay_Refund_Exception(
 				esc_html__(
 					'Cannot process refund, no available amount found for refund',
-					'bt-ipay'
+					'bt-ipay-payments'
 				)
 			);
 		}
@@ -91,7 +91,7 @@ class Bt_Ipay_Refund {
 			throw new Bt_Ipay_Refund_Exception(
 				sprintf(
 					/* translators: %s: amount */
-					esc_html__( 'Cannot process refund, a maximum of %s can be refunded', 'bt-ipay' ),
+					esc_html__( 'Cannot process refund, a maximum of %s can be refunded', 'bt-ipay-payments' ),
 					html_entity_decode( wp_strip_all_tags( wc_price( $payment_total ) ) )//phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				)
 			);
@@ -109,7 +109,7 @@ class Bt_Ipay_Refund {
 		if ( ! $response->is_successful() ) {
 			throw new Bt_Ipay_Refund_Exception(
 				/* translators: %s: error message */
-				sprintf( esc_html__( 'Cannot process refund: %s', 'bt-ipay' ), esc_html( $response->get_error_message() ) )
+				sprintf( esc_html__( 'Cannot process refund: %s', 'bt-ipay-payments' ), esc_html( $response->get_error_message() ) )
 			);
 		}
 
@@ -135,7 +135,7 @@ class Bt_Ipay_Refund {
 		if ( ! $response->is_successful() ) {
 			throw new Bt_Ipay_Refund_Exception(
 				/* translators: %s: error message */
-				sprintf( esc_html__( 'Cannot process refund: %s', 'bt-ipay' ), esc_html( $response->get_error_message() ) )
+				sprintf( esc_html__( 'Cannot process refund: %s', 'bt-ipay-payments' ), esc_html( $response->get_error_message() ) )
 			);
 		}
 		return $loy_amount;
