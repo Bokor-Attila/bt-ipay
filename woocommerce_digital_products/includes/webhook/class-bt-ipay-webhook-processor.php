@@ -118,7 +118,7 @@ class Bt_Ipay_Webhook_Processor {
 
 	private function update_order_status( Bt_Ipay_Order $order_service, string $payment_status ) {
 
-		$new_order_status = $this->get_new_order_status( $payment_status );
+		$new_order_status = $this->get_new_order_status( $payment_status, $order_service->needs_processing() );
 		/* translators: %s: payment status */
 		$message = sprintf( esc_html__( 'Received payment status: `%s` via callback', 'bt-ipay-payments' ), esc_attr( $payment_status ) );
 		if (
@@ -131,9 +131,9 @@ class Bt_Ipay_Webhook_Processor {
 		$order_service->update_message( $message );
 	}
 
-	private function get_new_order_status( string $payment_status ): ?string {
+	private function get_new_order_status( string $payment_status, bool $needs_processing ): ?string {
 		$mapping = array(
-			Bt_Ipay_Payment_Storage::STATUS_DEPOSITED => 'processing',
+			Bt_Ipay_Payment_Storage::STATUS_DEPOSITED => $needs_processing ? 'processing': 'completed',
 			Bt_Ipay_Payment_Storage::STATUS_REVERSED  => 'cancelled',
 			Bt_Ipay_Payment_Storage::STATUS_APPROVED  => 'on-hold',
 			Bt_Ipay_Payment_Storage::STATUS_REFUNDED  => 'refunded',
