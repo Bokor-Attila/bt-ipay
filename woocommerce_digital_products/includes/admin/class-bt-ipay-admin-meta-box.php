@@ -30,12 +30,12 @@ class Bt_Ipay_Admin_Meta_Box {
 		$this->storage = new Bt_Ipay_Payment_Storage();
 	}
 	public function add_order_meta_box( $post ) {
-		if ( $post === 'shop_order' ) {
+		if ( $post === 'shop_order' || $post === 'woocommerce_page_wc-orders' ) {
 			add_meta_box(
 				'bt-ipay',
 				esc_html__( 'BT Ipay', 'bt-ipay-payments' ),
 				array( $this, 'render_order_meta_box' ),
-				'shop_order',
+				$post === 'shop_order' ? 'shop_order' : wc_get_page_screen_id( 'shop-order' ),
 				'normal',
 				'high'
 			);
