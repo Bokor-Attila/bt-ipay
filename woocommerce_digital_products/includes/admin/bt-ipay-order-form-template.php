@@ -1,14 +1,15 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) exit;
+$orderId = is_a( $post, 'WP_Post' ) ?  $post->ID : $post->get_id();
 /** @var Bt_Ipay_Admin_Meta_Box $this */
-$payment_data = $this->get_payment_data( $post->ID );
-$payments     = $this->get_all_payments( $post->ID );
+$payment_data = $this->get_payment_data( $orderId );
+$payments     = $this->get_all_payments( $orderId );
 
 if ( $this->can_show_form( $payment_data ) ) {
 	?>
 	<h4><?php echo esc_html__( 'Capture or cancel payment:' , 'bt-ipay-payments' ); ?></h4>
-	<input type="hidden" name="bt-ipay-order-id" id="bt-ipay-order-id" value="<?php echo esc_attr( $post->ID ); ?>">
+	<input type="hidden" name="bt-ipay-order-id" id="bt-ipay-order-id" value="<?php echo esc_attr( $orderId ); ?>">
 	<div>
 		<label for="bt-ipay-capture-amount">
 			<?php echo esc_html__( 'Capture amount:' , 'bt-ipay-payments' ); ?>
