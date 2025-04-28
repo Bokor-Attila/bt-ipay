@@ -243,7 +243,7 @@ class Bt_Ipay_Webhook_Processor {
                 }
 
                 if (in_array( $new_status, array( 'failed' ) ) ) {
-                        return ! in_array( $current_status, array( 'refunded', 'complete' , 'processing' , 'on-hold') )
+                        return ! in_array( $current_status, array( 'refunded', 'complete' , 'processing' , 'on-hold') );
                 }
 
 		return true;
